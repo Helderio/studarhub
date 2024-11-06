@@ -1,7 +1,7 @@
 
 // src/pages/login.tsx
 
-import Link from 'next/link';
+import Link from '../../node_modules/next/dist/client/link';
 import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
 import Logo from '../components/logo';
 
