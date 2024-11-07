@@ -1,55 +1,79 @@
+// pages/login.tsx
+import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+//import Link from 'next/link';
+import { auth } from '../services/firebase';
+import Link from '../../node_modules/next/link';
 
-// src/pages/login.tsx
+const Login: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
-import Link from '../../node_modules/next/dist/client/link';
-import { FaFacebook, FaGoogle, FaTwitter } from 'react-icons/fa';
-import Logo from '../components/logo';
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setMessage('');
 
-const LoginPage: React.FC = () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setMessage('Login realizado com sucesso!');
+    } catch (err) {
+      setError('Erro ao fazer login. Verifique suas credenciais.');
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      {/* Logo do site */}
-      <div className="mb-8">
-        <Logo />
-      </div>
-
-      {/* Formulário de Login */}
-      <form className="flex flex-col items-center w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h2 className="text-2xl font-bold mb-6">Login</h2>
+      <form onSubmit={handleLogin} className="w-full max-w-sm bg-white p-8 rounded shadow-md">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Senha</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
         <button
           type="submit"
-          className="w-full p-3 mb-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 font-bold"
+          className="w-full bg-blue-500 text-white py-2 rounded mt-2 hover:bg-blue-600"
         >
-          Login
+          Entrar
         </button>
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
+
+        {/* Botão "Esqueci a senha" */}
+        <div className="mt-4 text-right">
+          <Link href="/forgot-password">
+            <a className="text-sm text-blue-500 hover:underline">Esqueci a senha</a>
+          </Link>
+        </div>
+
+        {/* Link para a tela de cadastro */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Não tem uma conta?{' '}
+            <Link href="/signup">
+              <a className="text-blue-500 hover:underline">Cadastre-se</a>
+            </Link>
+          </p>
+        </div>
       </form>
-
-      {/* Ícones para redes sociais */}
-      <div className="flex justify-center space-x-6 mt-4">
-        <FaFacebook size={24} className="text-gray-600 hover:text-blue-600 cursor-pointer" />
-        <FaGoogle size={24} className="text-gray-600 hover:text-red-600 cursor-pointer" />
-        <FaTwitter size={24} className="text-gray-600 hover:text-blue-400 cursor-pointer" />
-      </div>
-
-      {/* Link para a tela de cadastro */}
-      <Link href="/signup">
-        <a className="mt-4 text-blue-500 hover:underline font-bold">
-          Não tem conta? Cadastre-se
-        </a>
-      </Link>
     </div>
   );
 };
 
-export default LoginPage;
+export default Login;
