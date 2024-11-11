@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
     // Define um temporizador para ocultar a splash screen após 3 segundos
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 3000); // 3 segundos
+    }, 1000); // 1 segundo/
 
     // Limpa o temporizador quando o componente é desmontado
     return () => clearTimeout(timer);
@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
   // Conteúdo principal após a splash screen
   return (
     <div>
-      <h1>Bem-vindo ao StudarHub!</h1>
+      <h1>Bem-vindo ao OkuliHub!</h1>
       {/* Aqui você pode adicionar o conteúdo da tela principal */}
     </div>
   );

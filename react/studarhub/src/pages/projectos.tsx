@@ -1,6 +1,6 @@
 // pages/projectos.tsx
 import React, { useEffect, useState } from 'react';
-import { getProjects } from '@/services/firebase';
+import { getprojects } from '@/services/firebase';
 
 const Projectos: React.FC = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -8,7 +8,7 @@ const Projectos: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const projectData = await getProjects();
+        const projectData = await getprojects();
         setProjects(projectData);
       } catch (error) {
         console.error('Erro ao buscar projetos:', error);
